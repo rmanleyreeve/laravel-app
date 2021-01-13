@@ -1,0 +1,23 @@
+{
+  "name": "PBNE HomeZone Tenancy App",
+  "short_name": "PBNE HomeZone",
+  "description": "HomeZone Secure Tenancy Management App from PBNE",
+  "lang": "en-GB",
+	"icons": [
+    {
+      "src": "/img/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false
+}
