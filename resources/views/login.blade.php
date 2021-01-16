@@ -1,4 +1,3 @@
-<x-master>
 <section class="content-area">
 	<div class="container content">
 
@@ -70,4 +69,3 @@ function showInstallMessage(){
 	$('#installModal').modal('show');
 }
 </script>
-</x-master>

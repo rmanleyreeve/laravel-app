@@ -1,9 +1,8 @@
-<x-master>
 <section class="content-area">
 	<div class="container content">
-	
+
 		<div class="page-body">
-	
+
 			<div class="card bg-light">
 				<div class="card-header"><h3>Inspection Record</h3></div>
 				<div class="card-body p-2 table-responsive">
@@ -33,7 +32,7 @@
 					@else
 						<h3 class="text-center text-danger py-3">No current inspection recorded in the system.</h3>
 					@endif
-					
+
 					<h4 class="mb-1">Previous Inspections</h4>
 					<table class="table table-striped table-sm table-bordered">
 						<thead class="thead-light">
@@ -57,23 +56,22 @@
 					</table>
 				</div><!-- //card-body -->
 			</div><!-- //card -->
-			
+
 			<div class="row">
 				<div class="col col-xs-12">
-					<a href="/dashboard" class="mt-2 mb-3 btn btn-block btn-sm btn-secondary">Back</a>				
+					<a href="/dashboard" class="mt-2 mb-3 btn btn-block btn-sm btn-secondary">Back</a>
 				</div>
 			</div>
-			
+
 		</div><!-- //page-body -->
-	
+
 	</div>
 </section>
 
 <script>
 
 $(function(){
-	
+
 });
 
 </script>
-</x-master>

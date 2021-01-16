@@ -1,14 +1,13 @@
-<x-master>
 <section class="content-area">
 	<div class="container content">
-	
+
 		<div class="page-body">
-	
+
 			<div class="form-row clearfix">
 				<div class="col-xs-12 col-sm-12">
-							
+
 				@if($updated)
-							
+
 					<div class="card bg-light mt-4 mb-4">
 						<div class="card-header"><h3>Update My Details</h3></div>
 						<div class="card-body">
@@ -16,15 +15,15 @@
 							<p>Your updated details will be forwarded to your letting agent or landlord.</p>
 						</div><!-- //card-body -->
 					</div><!-- //card -->
-							
+
 					<div class="row">
 						<div class="col col-xs-12">
-							<a href="/dashboard" class="mt-2 mb-3 btn btn-block btn-sm btn-secondary">Back</a>				
+							<a href="/dashboard" class="mt-2 mb-3 btn btn-block btn-sm btn-secondary">Back</a>
 						</div>
 					</div>
 
 					@else
-			
+
 						<div class="card bg-light mt-4 mb-4">
 							<div class="card-header"><h3>Update My Details</h3></div>
 							<div class="card-body">
@@ -67,37 +66,36 @@
 
 							</div><!-- //col -->
 						</div><!-- //row -->
-							
+
 					@endif
-					
+
 				</div><!-- //col -->
 			</div><!-- //row -->
-						
+
 		</div><!-- //page-body -->
-	
+
 	</div>
 </section>
 
 <script>
 
 $(function(){
-	
-	
+
+
 	$('#submit-btn').on('click',function(e){
 		if(
 			'' == $('#contact_tel').val() &&
 			'' == $('#contact_mobile').val() &&
 			'' == $('#contact_email').val()
-		) { 
-			alert('Please enter a contact number or email'); 
+		) {
+			alert('Please enter a contact number or email');
 		} else {
 			$('#loader').css('color','#007bff');
 			$(this).attr('disabled',true);
 			$('#update-form').submit();
 		}
 	});
-	
+
 });
 
 </script>
-</x-master>

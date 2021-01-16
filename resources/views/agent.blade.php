@@ -1,16 +1,15 @@
-<x-master>
 <section class="content-area">
 	<div class="container content">
-	
+
 		<div class="page-body">
-			
+
 			@if($selected->managed_tenancy)
-			
+
 				<div class="card bg-light mt-4 mb-4">
 					<div class="card-header"><h3>Letting Agent Details</h3></div>
 					<div class="card-body p-2">
 						<table class="table table-striped table-sm table-bordered mb-1">
-							
+
 							<tr><th>Letting Agency:</th><td>{{ $selected->agent_company }}</td></tr>
 							<tr><th>Contact Name:</th><td>{{ $selected->agent_name }}</td></tr>
 							<tr>
@@ -24,28 +23,28 @@
 						<h4 class="m-3">To report an issue with the property, please use the <a href="/report">Report An Issue</a> link.</h4>
 					</div><!-- //card-body -->
 				</div><!-- //card -->
-			
+
 			@else
-			
+
 				<div class="card bg-light mt-4 mb-4">
 					<div class="card-header"><h3>Landlord Details</h3></div>
 					<div class="card-body p-2">
 						<p>Your Landlord is: <strong>{{ $selected->property_owner_names }}</strong></p>
 						<p>To contact your landlord or report an issue with the property, please use the <a href="/report">Report An Issue</a> link.</p>
-						
+
 					</div><!-- //card-body -->
 				</div><!-- //card -->
-			
+
 			@endif
-			
+
 			<div class="row">
 				<div class="col col-xs-12">
-					<a href="/dashboard" class="mt-2 mb-3 btn btn-block btn-sm btn-secondary">Back</a>				
+					<a href="/dashboard" class="mt-2 mb-3 btn btn-block btn-sm btn-secondary">Back</a>
 				</div>
 			</div>
-			
+
 		</div><!-- //page-body -->
-	
+
 	</div>
 </section>
 
@@ -69,4 +68,3 @@ $(function(){
 });
 
 </script>
-</x-master>

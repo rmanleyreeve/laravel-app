@@ -1,7 +1,6 @@
-<x-master>
 <section class="content-area">
 	<div class="container content">
-	
+
 		<div class="page-body">
 
 			<div class="card bg-light mt-4 mb-4">
@@ -35,22 +34,22 @@
 					</table>
 				</div><!-- //card-body -->
 			</div><!-- //card -->
-			
+
 			<div class="row">
 				<div class="col col-xs-12">
-					<a href="/dashboard" class="mt-2 mb-3 btn btn-block btn-sm btn-secondary">Back</a>				
+					<a href="/dashboard" class="mt-2 mb-3 btn btn-block btn-sm btn-secondary">Back</a>
 				</div>
 			</div>
-			
+
 		</div><!-- //page-body -->
-	
+
 	</div>
 </section>
 
 <script>
 
 $(function(){
-		
+
 	$('.address').on('click',function(e){
 		e.preventDefault();
 		var addr = '{{ urlencode("{$selected->property_address} {$selected->property_postcode}") }}';
@@ -72,5 +71,3 @@ $(function(){
 });
 
 </script>
-
-</x-master>

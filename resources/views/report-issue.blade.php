@@ -1,14 +1,13 @@
-<x-master>
 <section class="content-area">
 	<div class="container content">
-	
+
 		<div class="page-body">
-	
+
 			<div class="form-row clearfix">
 				<div class="col-xs-12 col-sm-12">
-							
+
 				@if($reported)
-							
+
 					<div class="card bg-light mt-4 mb-4">
 						<div class="card-header"><h3>Report An Issue</h3></div>
 						<div class="card-body">
@@ -18,12 +17,12 @@
 					</div><!-- //card -->
 					<div class="row">
 						<div class="col col-xs-12">
-							<a href="/dashboard" class="mt-2 mb-3 btn btn-block btn-sm btn-secondary">Back</a>				
+							<a href="/dashboard" class="mt-2 mb-3 btn btn-block btn-sm btn-secondary">Back</a>
 						</div>
 					</div>
 
 					@else
-			
+
 						<div class="card bg-light mt-4 mb-4">
 							<div class="card-header"><h3>Report An Issue</h3></div>
 							<div class="card-body">
@@ -64,14 +63,14 @@
 
 							</div><!-- //col -->
 						</div><!-- //row -->
-							
+
 					@endif
-					
+
 				</div><!-- //col -->
 			</div><!-- //row -->
-						
+
 		</div><!-- //page-body -->
-	
+
 	</div>
 </section>
 
@@ -79,15 +78,15 @@
 <script>
 
 $(function(){
-	
+
 	autosize($('.auto-growth'));
-	
+
 	$('#report-form').on('submit',function(e){
 		$('#loader').css('color','#007bff');
 		$(this).attr('disabled',true);
 	});
-	
+
 });
 
 </script>
-</x-master>
+a

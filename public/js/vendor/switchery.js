@@ -23,7 +23,7 @@ function require(name) {
 }
 
 /**
- * Meta info, accessible in the components scope unless you use AMD option.
+ * Meta info, accessible in the global scope unless you use AMD option.
  */
 
 require.loader = 'component';
@@ -56,11 +56,11 @@ require.helper.semVerSort = function(a, b) {
 
 /**
  * Find and require a module which name starts with the provided name.
- * If multiple modules exists, the highest semver is used. 
+ * If multiple modules exists, the highest semver is used.
  * This function can only be used for remote dependencies.
 
  * @param {String} name - module name: `user~repo`
- * @param {Boolean} returnPath - returns the canonical require path if true, 
+ * @param {Boolean} returnPath - returns the canonical require path if true,
  *                               otherwise it returns the epxorted module
  */
 require.latest = function (name, returnPath) {
@@ -83,7 +83,7 @@ require.latest = function (name, returnPath) {
           semVerCandidates.push({version: version, name: moduleName});
         } else {
           otherCandidates.push({version: version, name: moduleName});
-        } 
+        }
     }
   }
   if (semVerCandidates.concat(otherCandidates).length === 0) {
@@ -216,7 +216,7 @@ require.register("ftlabs~fastclick@v0.6.11", function (exports, module) {
  */
 
 /*jslint browser:true, node:true*/
-/*components define, Event, Node*/
+/*global define, Event, Node*/
 
 
 /**
@@ -943,7 +943,7 @@ FastClick.notNeeded = function(layer) {
 
 		if (FastClick.prototype.deviceIsAndroid) {
 			metaViewport = document.querySelector('meta[name=viewport]');
-			
+
 			if (metaViewport) {
 				// Chrome on Android with user-scalable="no" doesn't need FastClick (issue #89)
 				if (metaViewport.content.indexOf('user-scalable=no') !== -1) {
