@@ -1,8 +1,6 @@
 <section class="content-area">
 	<div class="container content">
 
-		<?php //pp($recordset); //exit; ?>
-
 		<div class="page-body">
 
 			<div class="card bg-light">
@@ -17,12 +15,12 @@
 							</tr>
 						</thead>
 						<tbody>
-						@foreach($recordset as $record)
-							<tr>
-								<td><?php echo date('j M Y',strtotime($record['payment_date']));?></td>
-								<td><?php echo _gbp($record['payment_amount']);?></td>
-							</tr>
-						    <?php $t += $record['payment_amount']; ?>
+						    @foreach($recordset as $record)
+                                <tr>
+                                    <td>{{ date('j M Y',strtotime($record->payment_date)) }}</td>
+                                    <td>{{ $utils->_gbp($record->payment_amount) }}</td>
+                                </tr>
+                                @php $t += $record->payment_amount; @endphp
                             @endforeach
 							<tr><th class="text-right">Total:</th><th>{{ $utils->_gbp($t) }}</th></tr>
 						</tbody>

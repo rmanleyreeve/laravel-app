@@ -20,9 +20,9 @@
 					@isset($selected)
 						<h4 class="mb-3">CP12 Details for {{ $selected->property_address }} {{ $selected->property_postcode }}</h4>
 						<p>Certificate expires: <strong>{{ date('j M Y',strtotime($selected->document_expiry)) }}</strong></p>
-						<?php $file = $utils->getDoc($selected->property_fk,'CP12 Certificate',$selected->document_id); ?>
+						@php $file = $utils->getDoc($selected->property_fk,'CP12 Certificate',$selected->document_id); @endphp
 						@isset($file)
-                            <?php
+                            @php
 							//build token
 							$p = $selected->property_fk;
 							$d = $selected->document_id;
@@ -30,11 +30,11 @@
 							$token = md5("p={$p}&d={$d}&k={$k}");
 							$ext = pathinfo($file,PATHINFO_EXTENSION);
 							$link = "https://admin.pbne.co.uk/homezone/cp12/{$p}/{$d}/{$token}.{$ext}";
-							?>
+                            @endphp
 						@else
-							<?php $link = "javascript:alert('We cannot display your certificate at the moment, please contact your letting agent or landlord');"; ?>
+							@php $link = "javascript:alert('We cannot display your certificate at the moment, please contact your letting agent or landlord');"; @endphp
 						@endisset
-						<p><a href="<?php echo $link;?>" target="@isset($file) _blank @endisset"><strong>View Certificate</strong> &nbsp; <i class="fas fa-external-link-alt"></i></a></p>
+						<p><a href="{{ $link }}" target="@isset($file) _blank @endisset"><strong>View Certificate</strong> &nbsp; <i class="fas fa-external-link-alt"></i></a></p>
 					@else
 						<h4 class="text-danger">No CP12 on file for this property, please contact your letting agent or landlord</h4>
 					@endisset

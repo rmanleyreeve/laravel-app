@@ -18,20 +18,24 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php
+                            @php
                             $bal = 0;
 							$t_expected = 0;
 							$t_paid = 0;
-							foreach ($periods as $period) {
-								$bal -= $tenancy->payment_amount;
-								if($period['payments']) { // 1 or more payments this month
-									$c1 = date('j/n/y',strtotime($period['start'])) .' - '. date('j/n/y',strtotime($period['end']));
+							@endphp
+                            @foreach ($periods as $period)
+                                @php $bal -= $tenancy->payment_amount; @endphp
+                                @if($period['payments'])
+									@php
+                                    $c1 = date('j/n/y',strtotime($period['start'])) .' - '. date('j/n/y',strtotime($period['end']));
 									$c2 = $tenancy->payment_amount;
-									foreach($period['payments'] as $p) {
-										$bal += $p['entry_amount'] + $p['entry_discount'];
-										$t_expected += ($c2 ?: 0);
-										$t_paid += ($p['entry_amount'] + $p['entry_discount']);
-										?>
+									@endphp
+									@foreach($period['payments'] as $p)
+                                        @php
+                                            $bal += $p['entry_amount'] + $p['entry_discount'];
+                                            $t_expected += ($c2 ?: 0);
+                                            $t_paid += ($p['entry_amount'] + $p['entry_discount']);
+										@endphp
 										<tr>
 											<td>{{  $c1 }}</td>
 											<td> {{ $utils->_gbp($c2) }}</td>
@@ -43,23 +47,19 @@
 											<td>{{ date('j M Y',strtotime($p['payment_date'])) }}</td>
 											<td>{{ $utils->_gbp($bal) }}</td>
 										</tr>
-										<?php
-										$c1 = NULL; $c2 = NULL;
-									}
-								} else { // no payment this month
-									$t_expected += $tenancy->payment_amount;
-								?>
-								<tr>
-									<td>{{ date('j/n/y',strtotime($period['start']))}} - {{ date('j/n/y',strtotime($period['end'])) }}</td>
-									<td>{{ $utils->_gbp($tenancy->payment_amount) }}</td>
-									<td>£0.00</td>
-									<td>&nbsp;</td>
-									<td>{{ $utils->_gbp($bal) }}</td>
-								</tr>
-								<?php
-								}
-							}
-							?>
+										@php $c1 = NULL; $c2 = NULL; @endphp
+									@endforeach
+								@else
+									@php $t_expected += $tenancy->payment_amount; @endphp
+                                    <tr>
+                                        <td>{{ date('j/n/y',strtotime($period['start']))}} - {{ date('j/n/y',strtotime($period['end'])) }}</td>
+                                        <td>{{ $utils->_gbp($tenancy->payment_amount) }}</td>
+                                        <td>£0.00</td>
+                                        <td>&nbsp;</td>
+                                        <td>{{ $utils->_gbp($bal) }}</td>
+                                    </tr>
+								@endif
+							@endforeach
 							<tr>
 								<th>TOTALS:</th>
 								<th>{{ $utils->_gbp($t_expected) }}</th>

@@ -1,8 +1,6 @@
     <section class="content-area">
 	<div class="container content">
 
-		<?php //pp(selected); //exit; ?>
-
 		<div class="page-body">
 
 			<ul class="dashboard-buttons">

@@ -1,4 +1,4 @@
-@if(!@$alert) <?php $alert = Session::get('alert'); ?> @endif
+@if(!@$alert) @php $alert = Session::get('alert'); @endphp @endif
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 	<!--
@@ -49,7 +49,7 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 		<link href="/css/switchery.css" rel="stylesheet" />
 		<link href="/css/toastr.css" rel="stylesheet" />
-		<link rel="stylesheet" href="/css/app.css?t=<?php echo time();?>">
+		<link rel="stylesheet" href="/css/app.css?t={{ time() }}">
 		<!-- Core JavaScript -->
 		<script src="/js/vendor/jquery-3.4.1.min.js"></script>
 		<script src="/js/vendor/bootstrap.bundle.min.js"></script>
