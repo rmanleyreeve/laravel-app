@@ -9,13 +9,14 @@ use App\Models\Contact;
 
 class AuthController extends Controller
 {
-    public function default(Request $request) {
-        //var_dump($_COOKIE); exit;
-        if(isset($_COOKIE['tenant_id'])) {
-            return redirect()->route('home');
-        } else {
-            return view('global.master',['content'=>'login']);
-        }
+    public function default() {
+        return redirect()->route('home');
+    }
+
+    public function login(){
+        return view('global.master', [
+            'content' => 'login',
+        ]);
     }
 
     public function authenticate(Request $request) {

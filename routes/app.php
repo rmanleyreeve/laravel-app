@@ -1,34 +1,46 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AppController;
 
-// DASHBOARD #############################################################################
-Route::get ('/dashboard', [AppController::class,'showDashboard'])->name('home');
+// Login/logout
+Route::get('/login', [AuthController::class,'login'])->name('login');
+Route::post('/login', [AuthController::class,'authenticate']);
+Route::get('/logout', [AuthController::class, 'logout']);
 
-// INFO ##################################################################################
-Route::get ('/info', [AppController::class,'showPropertyInfo']);
+Route::middleware('cookie')->group(function () {
+    // DEFAULT App entrypoint
+    Route::get('/', [AuthController::class,'default'])->name('default');
 
-// CP12 ##################################################################################
-Route::get ('/cp12', [AppController::class,'showCP12']);
+    // DASHBOARD
+    Route::get ('/dashboard', [AppController::class,'showDashboard'])->name('home');
 
-// AGENT #################################################################################
-Route::get ('/agent', [AppController::class,'showAgentDetails']);
+    // INFO
+    Route::get ('/info', [AppController::class,'showPropertyInfo']);
 
-// REPORT ################################################################################
-Route::get ('/report', [AppController::class,'showReportForm']);
-Route::post('/report', [AppController::class,'submitReport']);
+    // CP12
+    Route::get ('/cp12', [AppController::class,'showCP12']);
 
-// RENT ##################################################################################
-Route::get ('/rent', [AppController::class,'showRentStatement']);
+    // AGENT
+    Route::get ('/agent', [AppController::class,'showAgentDetails']);
 
-// BOND ##################################################################################
-Route::get ('/bond', [AppController::class,'showBondStatement']);
+    // REPORT
+    Route::get ('/report', [AppController::class,'showReportForm']);
+    Route::post('/report', [AppController::class,'submitReport']);
 
-// INSPECTIONS ###########################################################################
-Route::get ('/inspections', [AppController::class,'showInspections']);
-Route::get ('/inspections/{id}/signature', [AppController::class,'getSignatureImage']);
+    // RENT
+    Route::get ('/rent', [AppController::class,'showRentStatement']);
 
-// UPDATE #################################################################################
-Route::get ('/update', [AppController::class,'showUpdateDetailsForm']);
-Route::post ('/update', [AppController::class,'submitUpdateDetails']);
+    // BOND
+    Route::get ('/bond', [AppController::class,'showBondStatement']);
+
+    // INSPECTIONS
+    Route::get ('/inspections', [AppController::class,'showInspections']);
+    Route::get ('/inspections/{id}/signature', [AppController::class,'getSignatureImage']);
+
+    // UPDATE
+    Route::get ('/update', [AppController::class,'showUpdateDetailsForm']);
+    Route::post ('/update', [AppController::class,'submitUpdateDetails']);
+
+});

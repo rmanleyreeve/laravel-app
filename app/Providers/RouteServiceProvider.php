@@ -44,14 +44,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/_api.php'));
 
             // app routes defined here
-
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/app.php'));
 
-			Route::middleware('web')
-				->namespace($this->namespace)
-				->group(base_path('routes/auth.php'));
         });
     }
 

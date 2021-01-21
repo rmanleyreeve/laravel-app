@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\UpdateDetails;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,9 +18,6 @@ class AppController extends Controller
 
     // main app dashboard
     public function showDashboard(Request $request){
-        if(!isset($_COOKIE['tenant_id'])) {
-            return view('global.master',['content'=>'login']);
-        }
         $res = DB::table('tenancies AS t')
             ->join('contacts AS tc','tc.contact_id','=','t.tenant_contact_fk')
             ->join('properties AS p','p.property_id','=','t.property_fk')
@@ -55,9 +51,6 @@ class AppController extends Controller
 
     // property & utilities info
     public function showPropertyInfo(Request $request) {
-        if(!isset($_COOKIE['tenant_id'])) {
-            return view('global.master',['content'=>'login']);
-        }
         $res = DB::table('tenancies AS t')
             ->join('contacts AS tc','tc.contact_id','=','t.tenant_contact_fk')
             ->join('properties AS p','p.property_id','=','t.property_fk')
@@ -91,9 +84,6 @@ class AppController extends Controller
 
     // list current certificate
     public function showCP12(Request $request){
-        if(!isset($_COOKIE['tenant_id'])) {
-            return view('global.master',['content'=>'login']);
-        }
         $res = DB::table('tenancies AS t')
             ->join('properties AS p','p.property_id','=','t.property_fk')
             ->leftJoin('documents AS d','d.property_fk','=','t.property_fk')
@@ -124,9 +114,6 @@ class AppController extends Controller
 
     // letting agent / landlord details
     public function showAgentDetails(Request $request){
-        if(!isset($_COOKIE['tenant_id'])) {
-            return view('global.master',['content'=>'login']);
-        }
         $res = DB::table('tenancies AS t')
             ->join('properties AS p','p.property_id','=','t.property_fk')
             ->leftJoin('contacts AS mc','mc.contact_id','=','t.management_contact_fk')
@@ -155,9 +142,6 @@ class AppController extends Controller
 
     // report an issue
     public function showReportForm(Request $request) {
-        if(!isset($_COOKIE['tenant_id'])) {
-            return view('global.master',['content'=>'login']);
-        }
         return view('global.master', [
                 'content' => 'report-issue',
                 'reported' => false,
@@ -166,9 +150,6 @@ class AppController extends Controller
         );
     }
     public function submitReport(Request $request) {
-        if(!isset($_COOKIE['tenant_id'])) {
-            return view('global.master',['content'=>'login']);
-        }
         $res = DB::table('tenancies AS t')
             ->join('contacts AS tc','tc.contact_id','=','t.tenant_contact_fk')
             ->join('properties AS p','p.property_id','=','t.property_fk')
@@ -288,9 +269,6 @@ class AppController extends Controller
 
     // rent statement
     public function showRentStatement(Request $request){
-        if(!isset($_COOKIE['tenant_id'])) {
-            return view('global.master',['content'=>'login']);
-        }
         $tenancy = DB::table('tenancies AS t')
             ->where('t.deleted','=',false)
             ->where('t.tenant_contact_fk','=', intval($_COOKIE['tenant_contact_fk']))
@@ -361,9 +339,6 @@ class AppController extends Controller
 
     // bond statement
     public function showBondStatement(Request $request){
-        if(!isset($_COOKIE['tenant_id'])) {
-            return view('global.master',['content'=>'login']);
-        }
         $res = DB::table('tenancies AS t')
             ->join('bond_payments AS bp','bp.tenancy_fk','=','t.tenancy_id')
             ->where('bp.deleted','=',false)
@@ -389,9 +364,6 @@ class AppController extends Controller
 
     // property inspections
     public function showInspections(Request $request){
-        if(!isset($_COOKIE['tenant_id'])) {
-            return view('global.master',['content'=>'login']);
-        }
         $tenancy = DB::table('tenancies AS t')
             ->where('t.deleted','=',false)
             ->where('t.tenant_contact_fk','=', intval($_COOKIE['tenant_contact_fk']))
@@ -430,9 +402,6 @@ class AppController extends Controller
 
     //  inspection signature image
     public function getSignatureImage($id){
-        if(!isset($_COOKIE['tenant_id'])) {
-            return view('global.master',['content'=>'login']);
-        }
         $res = DB::select(
             "SELECT signature_image FROM inspections WHERE inspection_id=:id;",
             [':id'=>intval($id)]
@@ -444,9 +413,6 @@ class AppController extends Controller
 
     // update user details
     public function showUpdateDetailsForm(Request $request) {
-        if(!isset($_COOKIE['tenant_id'])) {
-            return view('global.master',['content'=>'login']);
-        }
         $res = DB::table('tenancies AS t')
             ->join('contacts AS tc','tc.contact_id','=','t.tenant_contact_fk')
             ->where('t.deleted','=',false)
@@ -469,9 +435,6 @@ class AppController extends Controller
         ]);
     }
     public function submitUpdateDetails(Request $request){
-        if(!isset($_COOKIE['tenant_id'])) {
-            return view('global.master',['content'=>'login']);
-        }
         $dataObj = Contact::find($request->contact_id);
         if(!$dataObj) {
             $request->session()->put('alert',array('type'=>'error','msg'=>'No matching contact record!'));
