@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Providers;
+namespace App\Domain;
 
 
-class UtilsProvider {
+class AppUtils {
 
 
 	// pretty print arrays and vars
@@ -344,7 +344,7 @@ class UtilsProvider {
 
 	// get media document from admin server
 	public function getDoc($pid,$type,$id) {
-		$fn = UtilsProvider::filename("{$type}-{$id}");
+		$fn = AppUtils::filename("{$type}-{$id}");
 		$path = env('ADMIN_SERVER')."media/properties/{$pid}/documents/{$fn}.*";
 		$list = glob($path);
 		if ($list) {
@@ -355,7 +355,7 @@ class UtilsProvider {
 	}
 
 	public function getTenancyDoc($tid,$type,$id) {
-		$fn = UtilsProvider::filename("{$type}-{$id}");
+		$fn = AppUtils::filename("{$type}-{$id}");
 		$path = env('ADMIN_SERVER')."media/tenancies/{$tid}/documents/{$fn}.*";
 		$list = glob($path);
 		if ($list) {

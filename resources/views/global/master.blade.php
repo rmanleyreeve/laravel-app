@@ -60,7 +60,7 @@
 			@if(@$alert)
 			// notifications
 			$('#toast-container').remove();
-			toastr.options = {  {!! \App\Providers\UtilsProvider::toastr_options() !!} };
+			toastr.options = {  {!! \App\Domain\AppUtils::toastr_options() !!} };
 			toastr['{{ $alert['type'] }}']("{{ $alert['msg'] }}", "{{ strtoupper($alert['type']) }}");
             {{ $alert = NULL }} {{ Session::forget('alert') }} @endif
 

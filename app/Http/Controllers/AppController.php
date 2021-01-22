@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Contact;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Arr;
-use \App\Providers\UtilsProvider as Utils;
+use \App\Domain\AppUtils as Utils;
 use DateInterval;
 use DateTime;
 use Illuminate\Support\Facades\Mail;
