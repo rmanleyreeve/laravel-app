@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Contact;
 
 class Tenant extends Model
 {
@@ -17,8 +16,13 @@ class Tenant extends Model
 		'created',
 	];
 
-    protected function contact() {
-        return $this->belongsTo(Contact::class, 'contact_id','tenant_contact_id');
+    public function contact() {
+        return $this->belongsTo(Contact::class, 'contact_fk','contact_id');
+    }
+
+    public function tenant_name() {
+        return $this->belongsTo(Contact::class, 'contact_fk','contact_id')
+            ->select(['contact_id','contact_name']);
     }
 
 

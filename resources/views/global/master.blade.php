@@ -62,7 +62,8 @@
 			$('#toast-container').remove();
 			toastr.options = {  {!! \App\Domain\AppUtils::toastr_options() !!} };
 			toastr['{{ $alert['type'] }}']("{{ $alert['msg'] }}", "{{ strtoupper($alert['type']) }}");
-            {{ $alert = NULL }} {{ Session::forget('alert') }} @endif
+            @php $alert = NULL; Session::forget('alert'); @endphp
+            @endif
 
 			//set active menu from URL
 			var uri = '/{{ Request::path() }}';
@@ -87,24 +88,24 @@
 							<a class="navbar-brand" href="/" id="home-link">
 								<img src="/img/logo-small.png" alt="">
 							</a>
-							@isset($_COOKIE['tenant_id'])
+							@if(\Illuminate\Support\Facades\Cookie::get('tenant_id'))
 							<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 								<span class="navbar-toggler-icon"></span>
 							</button>
 							<div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarSupportedContent">
 								@include('global.menu')
 							</div>
-							@endisset
+							@endif
 					</div>
 				</nav>
 			</header>
 			<!-- End Header Area -->
 
-            @isset($_COOKIE['tenant_id'])
+            @if(\Illuminate\Support\Facades\Cookie::get('tenant_id'))
 			<div class="alert alert-dark mb-1" role="alert">
-			<h5>Welcome, {{ $_COOKIE['tenant_fullname']}}</h5>
+			<h5>Welcome, {{ \Illuminate\Support\Facades\Cookie::get('tenant_fullname') }}</h5>
 			</div>
-			@endisset
+			@endif
 
 		<!-- Start Page Content -->
         @include($content)

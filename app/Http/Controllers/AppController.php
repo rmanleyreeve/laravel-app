@@ -12,6 +12,7 @@ use \App\Domain\AppUtils as Utils;
 use DateInterval;
 use DateTime;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cookie;
 
 class AppController extends Controller
 {
@@ -22,7 +23,7 @@ class AppController extends Controller
             ->join('contacts AS tc','tc.contact_id','=','t.tenant_contact_fk')
             ->join('properties AS p','p.property_id','=','t.property_fk')
             ->where('t.deleted','=','FALSE')
-            ->where('t.tenant_contact_fk','=', intval($_COOKIE['tenant_contact_fk'] ?? 0))
+            ->where('t.tenant_contact_fk','=', intval(Cookie::get('tenant_contact_fk') ?? 0))
             ->where(function($query){
                 $query->whereNull('t.tenancy_end_date')
                     ->orWhere('t.tenancy_end_date','=','')
@@ -34,11 +35,10 @@ class AppController extends Controller
            ->toArray();
         //print_r($res); exit;
         if(!$res) {
-            setcookie('tenant_id', '', -1, '/');
-            setcookie('tenant_contact_fk', '', -1, '/');
-            setcookie('tenant_username', '', -1, '/');
-            setcookie('tenant_fullname', '', -1, '/');
-            $_COOKIE = [];
+            Cookie::queue(Cookie::forget('tenant_id'));
+            Cookie::queue(Cookie::forget('tenant_contact_fk'));
+            Cookie::queue(Cookie::forget('tenant_username'));
+            Cookie::queue(Cookie::forget('tenant_fullname'));
             $request->session()->flush();
             return view('error');
         } else {
@@ -59,7 +59,7 @@ class AppController extends Controller
             ->join('postal_towns AS pto','pto.town_id','=','p.postal_town_fk')
             ->join('postal_counties AS co','co.county_id','=','pto.county_fk')
             ->where('t.deleted','=',false)
-            ->where('t.tenant_contact_fk','=', intval($_COOKIE['tenant_contact_fk']))
+            ->where('t.tenant_contact_fk','=', intval(Cookie::get('tenant_contact_fk')))
             ->orWhere(function($query){
                 $query->whereNull('t.tenancy_end_date')
                     ->where('t.tenancy_end_date','=','')
@@ -88,7 +88,7 @@ class AppController extends Controller
             ->join('properties AS p','p.property_id','=','t.property_fk')
             ->leftJoin('documents AS d','d.property_fk','=','t.property_fk')
             ->where('t.deleted','=',false)
-            ->where('t.tenant_contact_fk','=', intval($_COOKIE['tenant_contact_fk']))
+            ->where('t.tenant_contact_fk','=', intval(Cookie::get('tenant_contact_fk')))
             ->where(function($query){
                 $query->whereNull('t.tenancy_end_date')
                     ->orWhere('t.tenancy_end_date','=','')
@@ -118,7 +118,7 @@ class AppController extends Controller
             ->join('properties AS p','p.property_id','=','t.property_fk')
             ->leftJoin('contacts AS mc','mc.contact_id','=','t.management_contact_fk')
             ->where('t.deleted','=',false)
-            ->where('t.tenant_contact_fk','=', intval($_COOKIE['tenant_contact_fk']))
+            ->where('t.tenant_contact_fk','=', intval(Cookie::get('tenant_contact_fk')))
             ->orWhere(function($query){
                 $query->whereNull('t.tenancy_end_date')
                     ->where('t.tenancy_end_date','=','')
@@ -155,7 +155,7 @@ class AppController extends Controller
             ->join('properties AS p','p.property_id','=','t.property_fk')
             ->leftJoin('contacts AS mc','mc.contact_id','=','t.management_contact_fk')
             ->where('t.deleted','=',false)
-            ->where('t.tenant_contact_fk','=', intval($_COOKIE['tenant_contact_fk']))
+            ->where('t.tenant_contact_fk','=', intval(Cookie::get('tenant_contact_fk')))
             ->orWhere(function($query){
                 $query->whereNull('t.tenancy_end_date')
                     ->where('t.tenancy_end_date','=','')
@@ -271,7 +271,7 @@ class AppController extends Controller
     public function showRentStatement(Request $request){
         $tenancy = DB::table('tenancies AS t')
             ->where('t.deleted','=',false)
-            ->where('t.tenant_contact_fk','=', intval($_COOKIE['tenant_contact_fk']))
+            ->where('t.tenant_contact_fk','=', intval(Cookie::get('tenant_contact_fk')))
             ->orWhere(function($query){
                 $query->whereNull('t.tenancy_end_date')
                     ->where('t.tenancy_end_date','=','')
@@ -343,7 +343,7 @@ class AppController extends Controller
             ->join('bond_payments AS bp','bp.tenancy_fk','=','t.tenancy_id')
             ->where('bp.deleted','=',false)
             ->where('t.deleted','=',false)
-            ->where('t.tenant_contact_fk','=', intval($_COOKIE['tenant_contact_fk']))
+            ->where('t.tenant_contact_fk','=', intval(Cookie::get('tenant_contact_fk')))
             ->orWhere(function($query){
                 $query->whereNull('t.tenancy_end_date')
                     ->where('t.tenancy_end_date','=','')
@@ -366,7 +366,7 @@ class AppController extends Controller
     public function showInspections(Request $request){
         $tenancy = DB::table('tenancies AS t')
             ->where('t.deleted','=',false)
-            ->where('t.tenant_contact_fk','=', intval($_COOKIE['tenant_contact_fk']))
+            ->where('t.tenant_contact_fk','=', intval(Cookie::get('tenant_contact_fk')))
             ->orWhere(function($query){
                 $query->whereNull('t.tenancy_end_date')
                     ->where('t.tenancy_end_date','=','')
@@ -416,7 +416,7 @@ class AppController extends Controller
         $res = DB::table('tenancies AS t')
             ->join('contacts AS tc','tc.contact_id','=','t.tenant_contact_fk')
             ->where('t.deleted','=',false)
-            ->where('t.tenant_contact_fk','=', intval($_COOKIE['tenant_contact_fk']))
+            ->where('t.tenant_contact_fk','=', intval(Cookie::get('tenant_contact_fk')))
             ->orWhere(function($query){
                 $query->whereNull('t.tenancy_end_date')
                     ->where('t.tenancy_end_date','=','')
@@ -448,7 +448,7 @@ class AppController extends Controller
         $po = DB::table('tenancies AS t')
             ->selectRaw("(SELECT GROUP_CONCAT(owner_email SEPARATOR ',') FROM property_owners WHERE owner_id IN (SELECT owner_fk FROM link_property_owner WHERE property_fk=p.property_id)) AS property_owners")
             ->join('properties AS p','p.property_id','=','t.property_fk')
-            ->where('t.tenant_contact_fk','=', intval($_COOKIE['tenant_contact_fk']))
+            ->where('t.tenant_contact_fk','=', intval(Cookie::get('tenant_contact_fk')))
             ->where('t.deleted','=',false)
             ->where(function($query){
                 $query->whereNull('t.tenancy_end_date')

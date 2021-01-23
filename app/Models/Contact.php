@@ -17,8 +17,8 @@ class Contact extends Model
 		'created',
 	];
 
-	protected function tenant() {
-	    return $this->belongsTo(Tenant::class, 'tenant_contact_id','contact_id');
+	public function tenant() {
+	    return $this->belongsTo(Tenant::class, 'contact_fk','contact_id');
     }
 
 
