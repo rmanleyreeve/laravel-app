@@ -15,7 +15,7 @@ class AuthController extends Controller
     }
 
     public function login(){
-        return view('global.master', [
+        return view('master', [
             'content' => 'login',
         ]);
     }

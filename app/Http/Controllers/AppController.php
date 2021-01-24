@@ -42,7 +42,7 @@ class AppController extends Controller
             $request->session()->flush();
             return view('error');
         } else {
-            return view('global.master', [
+            return view('master', [
                 'content' => 'dashboard',
                 'selected' => reset($res)
             ]);
@@ -75,7 +75,7 @@ class AppController extends Controller
             ->get()
             ->toArray();
         //print_r($res); exit;
-        return view('global.master', [
+        return view('master', [
             'content' => 'property-info',
             'selected' => reset($res),
             'utils' => new Utils()
@@ -105,7 +105,7 @@ class AppController extends Controller
             ->get()
             ->toArray();
         //print_r($res); exit;
-        return view('global.master', [
+        return view('master', [
             'content' => 'cp12',
             'selected' => reset($res),
             'utils' => new Utils()
@@ -133,7 +133,7 @@ class AppController extends Controller
             ->get()
             ->toArray();
         //print_r($res); exit;
-        return view('global.master', [
+        return view('master', [
             'content' => 'agent',
             'selected' => reset($res),
             'utils' => new Utils()
@@ -142,7 +142,7 @@ class AppController extends Controller
 
     // report an issue
     public function showReportForm(Request $request) {
-        return view('global.master', [
+        return view('master', [
                 'content' => 'report-issue',
                 'reported' => false,
                 'issue_areas' => config('app.issue_areas'),
@@ -260,7 +260,7 @@ class AppController extends Controller
                 // show errors
                 var_dump(Mail::failures()); exit;
             }
-            return view('global.master', [
+            return view('master', [
                 'content' => 'report-issue',
                 'reported' => true
             ]);
@@ -328,7 +328,7 @@ class AppController extends Controller
             );
             $start = $next;
         }
-        return view('global.master', [
+        return view('master', [
             'content' => 'rent',
             'selected' => $tenancy,
             'tenancy' => $tenancy,
@@ -354,7 +354,7 @@ class AppController extends Controller
             ->get()
             ->toArray();
         //print_r($res); exit;
-        return view('global.master', [
+        return view('master', [
             'content' => 'bond',
             'recordset' => $res,
             'utils' => new Utils(),
@@ -392,7 +392,7 @@ class AppController extends Controller
             ->select('i.*', 't.tenancy_name')
             ->get()
             ->toArray();
-        return view('global.master', [
+        return view('master', [
             'content' => 'inspections',
             'current' => $current,
             'archived' => $archived,
@@ -427,7 +427,7 @@ class AppController extends Controller
             ->get()
             ->toArray();
         //print_r($res); exit;
-        return view('global.master', [
+        return view('master', [
             'content' => 'update-details',
             'selected' => reset($res),
             'utils' => new Utils(),
@@ -475,7 +475,7 @@ class AppController extends Controller
                 var_dump(Mail::failures()); exit;
             }
         }
-        return view('global.master', [
+        return view('master', [
             'content' => 'update-details',
             'updated' => true
         ]);

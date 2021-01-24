@@ -53,7 +53,7 @@
 		<!-- Core JavaScript -->
 		<script src="/js/vendor/jquery-3.4.1.min.js"></script>
 		<script src="/js/vendor/bootstrap.bundle.min.js"></script>
-		<!-- Toastr Js -->
+        <!-- Toastr Js -->
 		<script src="/js/vendor/toastr.min.js"></script>
 		<script>
 		$(function(){
@@ -64,16 +64,6 @@
 			toastr['{{ $alert['type'] }}']("{{ $alert['msg'] }}", "{{ strtoupper($alert['type']) }}");
             @php $alert = NULL; Session::forget('alert'); @endphp
             @endif
-
-			//set active menu from URL
-			var uri = '/{{ Request::path() }}';
-			$('#main-menu li a').each(function(i, e) {
-				//console.log(uri, $(this).attr('href'));
-				if(uri == $(this).attr('href')) {
-					$(this).addClass('active');
-					return false;
-				}
-			});
 		});
 		</script>
 	</head>
@@ -85,17 +75,28 @@
 			<header>
 				<nav class="navbar navbar-expand-lg navbar-dark">
 					<div class="container">
-							<a class="navbar-brand" href="/" id="home-link">
-								<img src="/img/logo-small.png" alt="">
-							</a>
-							@if(\Illuminate\Support\Facades\Cookie::get('tenant_id'))
-							<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-							<div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarSupportedContent">
-								@include('global.menu')
-							</div>
-							@endif
+                        <a class="navbar-brand" href="/" id="home-link">
+                            <img src="/img/logo-small.png" alt="">
+                        </a>
+                        @if(\Illuminate\Support\Facades\Cookie::get('tenant_id'))
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarSupportedContent">
+                            <ul class="navbar-nav" id="main-menu">
+                                <li><a class="nav-link" href="/dashboard">Dashboard</a></li>
+                                <li><a class="nav-link" href="/info">Property Information</a></li>
+                                <li><a class="nav-link" href="/cp12">Gas Safety Certificate</a></li>
+                                <li><a class="nav-link" href="/agent">Agent/Landlord Details</a></li>
+                                <li><a class="nav-link" href="/report">Report An Issue</a></li>
+                                <li><a class="nav-link" href="/rent">Rent Statement</a></li>
+                                <li><a class="nav-link" href="/bond">Bond Statement</a></li>
+                                <li><a class="nav-link" href="/inspections">Inspections</a></li>
+                                <li><a class="nav-link" href="/update">Update My Details</a></li>
+                                <li><a class="nav-link" href="/logout">Log Out</a></li>
+                            </ul>
+                        </div>
+                        @endif
 					</div>
 				</nav>
 			</header>
@@ -103,13 +104,13 @@
 
             @if(\Illuminate\Support\Facades\Cookie::get('tenant_id'))
 			<div class="alert alert-dark mb-1" role="alert">
-			<h5>Welcome, {{ \Illuminate\Support\Facades\Cookie::get('tenant_fullname') }}</h5>
+                <h5>Welcome, {{ \Illuminate\Support\Facades\Cookie::get('tenant_fullname') }}</h5>
 			</div>
 			@endif
 
-		<!-- Start Page Content -->
-        @include($content)
-		<!-- End Page Content -->
+            <!-- Start Page Content -->
+            @include($content)
+            <!-- End Page Content -->
 
 			<!-- Start footer area -->
 			<footer class="footer">
@@ -134,5 +135,6 @@
 		<script src="/js/vendor/switchery.js"></script>
 		<!-- Custom Js -->
 		<script src="/js/app.js"></script>
+
 	</body>
 </html>
