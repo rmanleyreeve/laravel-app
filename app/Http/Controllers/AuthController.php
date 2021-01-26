@@ -35,16 +35,17 @@ class AuthController extends Controller
             Cookie::queue('tenant_contact_fk',$tenant['contact_fk'], $expiry);
             Cookie::queue('tenant_username',$tenant['username'], $expiry);
             Cookie::queue('tenant_fullname',$tenant['tenant_name']['contact_name'], $expiry);
-            $request->session()->put('alert',array('type'=>'success','msg'=>'Welcome to your HomeZone App'));
+            $request->session()->flash('alert',array('type'=>'success','msg'=>'Welcome to your HomeZone App'));
+            return redirect()->route('home');
         } else {
             Cookie::queue(Cookie::forget('tenant_id'));
             Cookie::queue(Cookie::forget('tenant_contact_fk'));
             Cookie::queue(Cookie::forget('tenant_username'));
             Cookie::queue(Cookie::forget('tenant_fullname'));
             $request->session()->flush();
-            $request->session()->put('alert',array('type'=>'error','msg'=>'Login Failed!'));
+            $request->session()->flash('alert',array('type'=>'error','msg'=>'Login Failed!'));
+            return redirect()->route('login');
         }
-        return redirect()->route('home');
     }
 
     public function logout(Request $request){
@@ -53,7 +54,7 @@ class AuthController extends Controller
         Cookie::queue(Cookie::forget('tenant_username'));
         Cookie::queue(Cookie::forget('tenant_fullname'));
         $request->session()->flush();
-        $request->session()->put('alert', ['type'=>'info','msg'=>'You are now logged out of your HomeZone App']);
-        return redirect()->route('default');
+        $request->session()->flash('alert', ['type'=>'info','msg'=>'You are now logged out of your HomeZone App']);
+        return redirect()->route('login');
     }
 }

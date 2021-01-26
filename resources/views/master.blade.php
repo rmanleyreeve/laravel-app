@@ -1,4 +1,3 @@
-@if(!@$alert) @php $alert = Session::get('alert'); @endphp @endif
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 	<!--
@@ -57,13 +56,13 @@
 		<script src="/js/vendor/toastr.min.js"></script>
 		<script>
 		$(function(){
-			@if(@$alert)
+			@if(Session::has('alert'))
+            @php $alert = Session::get('alert'); @endphp
 			// notifications
 			$('#toast-container').remove();
 			toastr.options = {  {!! \App\Domain\AppUtils::toastr_options() !!} };
 			toastr['{{ $alert['type'] }}']("{{ $alert['msg'] }}", "{{ strtoupper($alert['type']) }}");
-            @php $alert = NULL; Session::forget('alert'); @endphp
-            @endif
+Z            @endif
 		});
 		</script>
 	</head>

@@ -437,7 +437,7 @@ class AppController extends Controller
     public function submitUpdateDetails(Request $request){
         $dataObj = Contact::find($request->contact_id);
         if(!$dataObj) {
-            $request->session()->put('alert',array('type'=>'error','msg'=>'No matching contact record!'));
+            $request->session()->flash('alert',array('type'=>'error','msg'=>'No matching contact record!'));
             return redirect()->route('home');
         }
         $dataObj->timestamps = false;
