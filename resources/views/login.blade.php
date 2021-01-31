@@ -38,7 +38,7 @@
 </section>
 
 <!-- Install Propmp Modal -->
-<div class="modal fade" id="installModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="installModal" tabindex="-1" role="dialog" ref="vuemodal">
 	<div class="modal-dialog modal-dialog-centered modal-sm">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -54,18 +54,24 @@
 </div>
 
 <script>
-// Detects if device is on iOS
-const isIos = () => {
-  const userAgent = window.navigator.userAgent.toLowerCase();
-  return /iphone|ipad|ipod/.test( userAgent );
-}
-// Detects if device is in standalone mode
-const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
-// Checks if should display install popup notification:
-if (isIos() && !isInStandaloneMode()) {
-  showInstallMessage();
-}
-function showInstallMessage(){
-	$('#installModal').modal('show');
-}
+    new Vue({
+        el: '#installModal',
+        data: {
+        },
+        methods: {
+            isIos: function (){
+                const userAgent = window.navigator.userAgent.toLowerCase();
+                return /iphone|ipad|ipod/.test( userAgent );
+            },
+            isInStandaloneMode: function (){
+                return ('standalone' in window.navigator) && (window.navigator.standalone);
+            }
+        },
+        mounted: function (){
+            if(this.isIos() && !this.isInStandaloneMode()){
+                $(this.$refs.vuemodal).modal('show');
+            }
+        }
+    });
+
 </script>

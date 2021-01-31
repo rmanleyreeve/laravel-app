@@ -321,7 +321,7 @@ a.navbar-brand img {
 @media (max-height: 540px) {
 	.dashboard-buttons li {
 		margin: 2%;
-	}	
+	}
 }
 @media (max-height: 400px) {
 	.dashboard-buttons li button {
@@ -331,4 +331,8 @@ a.navbar-brand img {
 .signature-image {
 	width: 100%;
 	height: auto;
+}
+
+[v-cloak] {
+    display: none;
 }

@@ -3,12 +3,12 @@
 
 		<div class="page-body">
 
-			<div class="card bg-light mt-4 mb-4">
+			<div class="card bg-light mt-4 mb-4" id="vue-element">
 				<div class="card-header"><h3>Property Details</h3></div>
 				<div class="card-body p-2">
 					<table class="table table-striped table-sm table-bordered mb-1">
 						<tr>
-							<th>Address:</th><td><a href="#" target="_blank" class="address" data-lat="{{ $selected->latitude }}" data-lng="{{ $selected->longitude }}">{{  $selected->property_address }}, {{ $selected->county_name }} {{ $selected->property_postcode }}</a></td>
+							<th>Address:</th><td><a v-on:click.stop="getAddressLink" href="#" target="_blank" data-lat="{{ $selected->latitude }}" data-lng="{{ $selected->longitude }}">{{  $selected->property_address }}, {{ $selected->county_name }} {{ $selected->property_postcode }}</a></td>
 						</tr>
 						<tr>
 							<th>Type:</th><td>{{ $selected->property_type_name }}, {{ $selected->furnishing_type_name }}, {{ $selected->number_bedrooms }} bedrooms</td>
@@ -47,27 +47,27 @@
 </section>
 
 <script>
-
-$(function(){
-
-	$('.address').on('click',function(e){
-		e.preventDefault();
-		var addr = '{{ urlencode("{$selected->property_address} {$selected->property_postcode}") }}';
-		var url = 'maps.google.com/maps?q='+addr;
-		var lat = $(this).data('lat');
-		var lng = $(this).data('lng');
-		if(lat && lng) {
-			url += '&center='+lat+','+lng+'&amp;ll=';
-		}
-		if ((navigator.platform.indexOf("iP") != -1)){
-			if(confirm('Close this app and open in Maps?')) {
-				window.open("maps://" + url); // we're on iOS, open in Apple Maps
-			}
-		} else {
-			window.open("https://" + url); // else use Google
-		}
-	});
-
-});
-
+    new Vue({
+        el: '#vue-element',
+        data: {
+            addr: '{!! urlencode("{$selected->property_address} {$selected->property_postcode}") !!}'
+        },
+        methods: {
+            getAddressLink: function (ev){
+                let url = 'maps.google.com/maps?q=' + this.addr;
+                let lat = ev.target.dataset.lat;
+                let lng = ev.target.dataset.lng;
+                if(lat && lng) {
+                    url += '&center='+lat+','+lng+'&amp;ll=';
+                }
+                if ((navigator.platform.indexOf("iP") != -1)){
+                    if(confirm('Close this app and open in Maps?')) {
+                        window.open("maps://" + url); // we're on iOS, open in Apple Maps
+                    }
+                } else {
+                    window.open("https://" + url); // else use Google
+                }
+            }
+        }
+    });
 </script>

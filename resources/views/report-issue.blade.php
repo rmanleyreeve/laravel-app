@@ -27,7 +27,7 @@
 							<div class="card-header"><h3>Report An Issue</h3></div>
 							<div class="card-body">
 
-								<form id="report-form" method="post" enctype="multipart/form-data">
+								<form id="report-form" method="post" enctype="multipart/form-data" @submit.prevent="processForm">
                                     @csrf
                                     <div class="form-group row">
                                         <label class="col-sm-12 control-label">Issue Relates to:</label>
@@ -43,7 +43,9 @@
                                     <div class="form-group row">
                                         <label class="col-sm-12 control-label">Full Description of Issue:</label>
                                         <div class="col-sm-12">
-                                            <textarea rows="6" class="form-control no-resize auto-growth" name="issue_description" id="issue_description" required></textarea>
+                                            <resizable-textarea>
+                                                <textarea rows="6" class="form-control no-resize" name="issue_description" id="issue_description" required></textarea>
+                                            </resizable-textarea>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -54,9 +56,9 @@
                                     </div>
                                     <div class="form-group row mt-5">
                                         <div class="col-sm-12">
-                                            <button type="submit" id="submit-btn" class="m-w-100 btn btn-sm btn-primary">Send</button>
+                                            <button :disabled="btnDisabled" type="submit" id="submit-btn" class="m-w-100 btn btn-sm btn-primary">Send</button>
                                             <a href="/dashboard" class="ml-2 btn btn-sm btn-outline-secondary">Cancel</a>
-                                            <span id="loader" class="ml-3" style="vertical-align:-webkit-baseline-middle;color:#f8f9fa;"><i class="fas fa-2x fa-sync fa-spin"></i></span>
+                                            <span v-if="loader" class="ml-3" style="vertical-align:-webkit-baseline-middle;color:#007bff;"><i class="fas fa-2x fa-sync fa-spin"></i></span>
                                         </div>
                                     </div>
                                 </form>
@@ -74,19 +76,41 @@
 	</div>
 </section>
 
-<script src="/js/vendor/autosize.js"></script>
 <script>
+    Vue.component('resizable-textarea', {
+        methods: {
+            resizeTextarea (event) {
+                event.target.style.height = 'auto'
+                event.target.style.height = (event.target.scrollHeight) + 'px'
+            },
+        },
+        mounted () {
+            this.$nextTick(() => {
+                this.$el.setAttribute('style', 'height:' + (this.$el.scrollHeight) + 'px;overflow-y:hidden;')
+            })
+            this.$el.addEventListener('input', this.resizeTextarea)
+        },
+        beforeDestroy () {
+            this.$el.removeEventListener('input', this.resizeTextarea)
+        },
+        render () {
+            return this.$slots.default[0]
+        },
+    });
 
-$(function(){
-
-	autosize($('.auto-growth'));
-
-	$('#report-form').on('submit',function(e){
-		$('#loader').css('color','#007bff');
-		$(this).attr('disabled',true);
-	});
-
-});
-
+    new Vue({
+        el: '#report-form',
+        data: {
+            loader: false,
+            btnDisabled: false
+        },
+        methods: {
+            processForm: function (ev){
+                this.loader = true;
+                this.btnDisabled = true;
+                return true;
+            }
+        }
+    });
 </script>
 a

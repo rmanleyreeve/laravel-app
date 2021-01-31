@@ -52,17 +52,19 @@
 		<!-- Core JavaScript -->
 		<script src="/js/vendor/jquery-3.4.1.min.js"></script>
 		<script src="/js/vendor/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
         <!-- Toastr Js -->
 		<script src="/js/vendor/toastr.min.js"></script>
 		<script>
 		$(function(){
 			@if(Session::has('alert'))
-            @php $alert = Session::get('alert'); @endphp
-			// notifications
-			$('#toast-container').remove();
-			toastr.options = {  {!! \App\Domain\AppUtils::toastr_options() !!} };
-			toastr['{{ $alert['type'] }}']("{{ $alert['msg'] }}", "{{ strtoupper($alert['type']) }}");
-Z            @endif
+                @php $alert = Session::get('alert'); @endphp
+                // notifications
+                $('#toast-container').remove();
+                toastr.options = {  {!! \App\Domain\AppUtils::toastr_options() !!} };
+                toastr['{{ $alert['type'] }}']("{{ $alert['msg'] }}", "{{ strtoupper($alert['type']) }}");
+            @endif
 		});
 		</script>
 	</head>

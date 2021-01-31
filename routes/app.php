@@ -34,6 +34,7 @@ Route::middleware('cookie')->group(function () {
 
     // BOND
     Route::get ('/bond', [AppController::class,'showBondStatement']);
+    Route::get ('/bond-data', [AppController::class,'getBondData']);
 
     // INSPECTIONS
     Route::get ('/inspections', [AppController::class,'showInspections']);

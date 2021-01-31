@@ -3,16 +3,16 @@
 
 		<div class="page-body">
 
-			<ul class="dashboard-buttons">
-				<li><button type="button" class="btn" data-href="info">Property Information</button></li>
-				<li><button type="button" class="btn" data-href="cp12">Gas Safety Certificate</button></li>
-				<li><button type="button" class="btn" data-href="agent">{{ ($selected->managed_tenancy)?'Letting Agent':'Landlord' }} Details</button></li>
-				<li><button type="button" class="btn" data-href="report">Report An Issue</button></li>
-				<li><button type="button" class="btn" data-href="rent">Rent Statement</button></li>
-				<li><button type="button" class="btn" data-href="bond">Bond Statement</button></li>
-				<li><button type="button" class="btn" data-href="inspections">Inspections</button></li>
-				<li><button type="button" class="btn" data-href="update">Update My Details</button></li>
-				<li><button type="button" class="btn" data-href="logout">Log Out</button></li>
+			<ul class="dashboard-buttons" id="dashboard-buttons">
+				<li><button type="button" class="btn" v-on:click="goto" data-href="info">Property Information</button></li>
+				<li><button type="button" class="btn" v-on:click="goto" data-href="cp12">Gas Safety Certificate</button></li>
+				<li><button type="button" class="btn" v-on:click="goto" data-href="agent">{{ ($selected->managed_tenancy)?'Letting Agent':'Landlord' }} Details</button></li>
+				<li><button type="button" class="btn" v-on:click="goto" data-href="report">Report An Issue</button></li>
+				<li><button type="button" class="btn" v-on:click="goto" data-href="rent">Rent Statement</button></li>
+				<li><button type="button" class="btn" v-on:click="goto" data-href="bond">Bond Statement</button></li>
+				<li><button type="button" class="btn" v-on:click="goto" data-href="inspections">Inspections</button></li>
+				<li><button type="button" class="btn" v-on:click="goto" data-href="update">Update My Details</button></li>
+				<li><button type="button" class="btn" v-on:click="goto" data-href="logout">Log Out</button></li>
 			</ul>
 
 		</div><!-- //page-body -->
@@ -22,12 +22,13 @@
 
 <script>
 
-$(function(){
-
-	$('.dashboard-buttons li button').on('click',function(){
-		location = $(this).data('href');
-	});
-
-});
+    new Vue({
+        el: '#dashboard-buttons',
+        methods: {
+            goto: function (ev){
+                window.location = ev.target.dataset.href;
+            }
+        }
+    });
 
 </script>

@@ -339,6 +339,12 @@ class AppController extends Controller
 
     // bond statement
     public function showBondStatement(Request $request){
+        return view('master', [
+            'content' => 'bond',
+            'utils' => new Utils(),
+        ]);
+    }
+    public function getBondData(Request $request){
         $res = DB::table('tenancies AS t')
             ->join('bond_payments AS bp','bp.tenancy_fk','=','t.tenancy_id')
             ->where('bp.deleted','=',false)
@@ -354,13 +360,12 @@ class AppController extends Controller
             ->get()
             ->toArray();
         //print_r($res); exit;
-        return view('master', [
-            'content' => 'bond',
-            'recordset' => $res,
-            'utils' => new Utils(),
-            't' => 0
-        ]);
+        $content = json_encode($res,JSON_PRETTY_PRINT);
+        return response($content)
+            ->header('Content-Type', 'application/json; charset=utf-8')
+            ->header('Access-Control-Allow-Origin', '*');
     }
+
 
     // property inspections
     public function showInspections(Request $request){

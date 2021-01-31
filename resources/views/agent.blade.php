@@ -1,7 +1,7 @@
 <section class="content-area">
 	<div class="container content">
 
-		<div class="page-body">
+		<div class="page-body" id="vue-element">
 
 			@if($selected->managed_tenancy)
 
@@ -13,7 +13,7 @@
 							<tr><th>Letting Agency:</th><td>{{ $selected->agent_company }}</td></tr>
 							<tr><th>Contact Name:</th><td>{{ $selected->agent_name }}</td></tr>
 							<tr>
-								<th>Address:</th><td><a href="#" target="_blank" class="address">{{ $selected->agent_address }} {{ $selected->agent_postcode }}</a></td>
+								<th>Address:</th><td><a href="#" target="_blank" v-on:click.stop="getAddressLink">{{ $selected->agent_address }} {{ $selected->agent_postcode }}</a></td>
 							</tr>
 							<tr><th>Tel:</th><td><a href="{{ $utils->telLink($selected->agent_tel) }}">{{ $selected->agent_tel }}</a></td></tr>
 							<tr><th>Mobile:</th><td><a href="{{ $utils->telLink($selected['agent_mobile']) }}">{{ $selected->agent_mobile }}</a></td></tr>
@@ -49,22 +49,28 @@
 </section>
 
 <script>
-
-$(function(){
-
-	$('.address').on('click',function(e){
-		e.preventDefault();
-		var addr = '{{ urlencode("{$selected->property_address} {$selected->property_postcode}") }}';
-		var url = 'maps.google.com/maps?q='+addr;
-		if ((navigator.platform.indexOf("iP") != -1)){
-			if(confirm('Close this app and open in Maps?')) {
-				window.open("maps://" + url); // we're on iOS, open in Apple Maps
-			}
-		} else {
-			window.open("https://" + url); // else use Google
-		}
-	});
-
-});
-
+    new Vue({
+        el: '#vue-element',
+        data: {
+            addr: '{!! urlencode("{$selected->property_address} {$selected->property_postcode}") !!}'
+        },
+        methods: {
+            getAddressLink: function (ev){
+                let url = 'maps.google.com/maps?q=' + this.addr;
+                let lat = ev.target.dataset.lat;
+                let lng = ev.target.dataset.lng;
+                if(lat && lng) {
+                    url += '&center='+lat+','+lng+'&amp;ll=';
+                }
+                if ((navigator.platform.indexOf("iP") != -1)){
+                    if(confirm('Close this app and open in Maps?')) {
+                        window.open("maps://" + url); // we're on iOS, open in Apple Maps
+                    }
+                } else {
+                    alert(url);
+                    window.open("https://" + url); // else use Google
+                }
+            }
+        }
+    });
 </script>

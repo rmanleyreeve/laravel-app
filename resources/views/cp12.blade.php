@@ -54,11 +54,3 @@
 
 	</div>
 </section>
-
-<script>
-
-$(function(){
-
-});
-
-</script>

@@ -28,37 +28,37 @@
 							<div class="card-header"><h3>Update My Details</h3></div>
 							<div class="card-body">
 
-								<form id="update-form" method="post">
+								<form id="update-form" method="post" @submit.prevent="processForm">
                                     @csrf
 									<div class="form-group row">
 										<label class="col-sm-12 control-label"><strong>Name:</strong></label>
 										<div class="col-sm-12">
-											<input class="form-control input-sm" name="contact_name" id="contact_name" value="{{ $selected->contact_name }}" required />
+											<input v-model="contact_name" class="form-control input-sm" name="contact_name" id="contact_name" :required="true" />
 										</div>
 									</div>
 									<div class="form-group row">
 										<label class="col-sm-12 control-label"><strong>Contact Telephone:</strong></label>
 										<div class="col-sm-12">
-											<input type="tel" class="form-control input-sm" name="contact_tel" id="contact_tel" value="{{ $selected->contact_tel }}" />
+											<input v-model="contact_tel" type="tel" class="form-control input-sm" name="contact_tel" id="contact_tel"  />
 										</div>
 									</div>
 									<div class="form-group row">
 										<label class="col-sm-12 control-label"><strong>Contact Mobile:</strong></label>
 										<div class="col-sm-12">
-											<input type="tel" class="form-control input-sm" name="contact_mobile" id="contact_mobile" value="{{ $selected->contact_mobile }}" />
+											<input v-model="contact_mobile" type="tel" class="form-control input-sm" name="contact_mobile" id="contact_mobile" />
 										</div>
 									</div>
 									<div class="form-group row">
 										<label class="col-sm-12 control-label"><strong>Contact Email:</strong></label>
 										<div class="col-sm-12">
-											<input type="email" class="form-control input-sm" name="contact_email" id="contact_email" value="{{ $selected->contact_email }}" />
+											<input v-model="contact_email" type="email" class="form-control input-sm" name="contact_email" id="contact_email" />
 										</div>
 									</div>
 									<div class="form-group row mt-5">
 										<div class="col-sm-12">
-											<button type="button" id="submit-btn" class="m-w-100 btn btn-sm btn-primary">Update</button>
-											<a href="/dashboard" class="ml-2 btn btn-sm btn-outline-secondary">Cancel</a>
-											<span id="loader" class="ml-3" style="vertical-align:-webkit-baseline-middle;color:#f8f9fa;"><i class="fas fa-2x fa-sync fa-spin"></i></span>
+                                            <button :disabled="btnDisabled" type="submit" id="submit-btn" class="m-w-100 btn btn-sm btn-primary">Send</button>
+                                            <a href="/dashboard" class="ml-2 btn btn-sm btn-outline-secondary">Cancel</a>
+                                            <span v-if="loader" class="ml-3" style="vertical-align:-webkit-baseline-middle;color:#007bff;"><i class="fas fa-2x fa-sync fa-spin"></i></span>
 										</div>
 									</div>
 									<input type="hidden" name="contact_id" value="{{ $selected->contact_id }}">
@@ -78,24 +78,26 @@
 </section>
 
 <script>
-
-$(function(){
-
-
-	$('#submit-btn').on('click',function(e){
-		if(
-			'' == $('#contact_tel').val() &&
-			'' == $('#contact_mobile').val() &&
-			'' == $('#contact_email').val()
-		) {
-			alert('Please enter a contact number or email');
-		} else {
-			$('#loader').css('color','#007bff');
-			$(this).attr('disabled',true);
-			$('#update-form').submit();
-		}
-	});
-
-});
-
+    new Vue({
+        el: '#update-form',
+        data: {
+            loader: false,
+            btnDisabled: false,
+            contact_name: '{!! $selected->contact_name !!}',
+            contact_tel: '{!! $selected->contact_tel !!}',
+            contact_mobile: '{!! $selected->contact_mobile !!}',
+            contact_email: '{!! $selected->contact_email !!}'
+        },
+        methods: {
+            processForm: function (ev){
+                if(!this.contact_tel && !this.contact_mobile && !this.contact_email){
+                    alert('Please enter a contact number or email');
+                } else {
+                    this.loader = true;
+                    this.btnDisabled = true;
+                    return false;
+                }
+            }
+        }
+    });
 </script>
