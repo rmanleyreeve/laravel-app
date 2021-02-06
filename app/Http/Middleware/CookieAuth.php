@@ -11,13 +11,13 @@ class CookieAuth
     /**
      * Check incoming request to see if auth cookie set
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Cookie::get('tenant_id')) {
+        if (Cookie::get('tenant_id')) {
             return $next($request);
         } else {
             return redirect()->route('login');

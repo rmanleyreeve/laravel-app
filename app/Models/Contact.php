@@ -4,23 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Tenant;
 
 class Contact extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
-	protected $primaryKey = 'contact_id';
+    protected $primaryKey = 'contact_id';
 
-	protected $guarded = [
-		'created',
-	];
+    protected $guarded = [
+        'created',
+    ];
 
-	public function tenant() {
-	    return $this->belongsTo(Tenant::class, 'contact_fk','contact_id');
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'contact_fk', 'contact_id');
     }
-
 
 
 }
